@@ -45,6 +45,7 @@ $RECYCLE.BIN/
 .vagrant
 Vagrantfile
 env
+App.app
 
 #-------------------------
 # Temporary Files
