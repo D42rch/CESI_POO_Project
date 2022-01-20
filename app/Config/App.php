@@ -8,7 +8,7 @@ class App extends BaseConfig
 {
     /**
      * --------------------------------------------------------------------------
-     * Base Site URL
+     * Base Site URL JULIEN
      * --------------------------------------------------------------------------
      *
      * URL to your CodeIgniter root. Typically this will be your base URL,
@@ -23,7 +23,7 @@ class App extends BaseConfig
      *
      * @var string
      */
-    public $baseURL = 'http://localhost:80/';
+    public $baseURL = 'http://localhost/CESI_POO_Project/public/';
 
     /**
      * --------------------------------------------------------------------------
@@ -36,7 +36,7 @@ class App extends BaseConfig
      *
      * @var string
      */
-    public $indexPage = 'index.php';
+    public $indexPage = '';
 
     /**
      * --------------------------------------------------------------------------
