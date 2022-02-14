@@ -1,10 +1,3 @@
-<?php 
-    //remplacer apiKey 
-    $food_url='https://api.spoonacular.com/recipes/complexSearch?number=10&apiKey=a986bb3f492143e3bbb67f5c4080a2cb';
-    $food_json = file_get_contents($food_url);
-    $food_array = json_decode($food_json, true);    
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,8 +11,8 @@
     <h1><?php echo $name; ?></h1>
     <table>       
         <div id="results" data-url="<?php if(!empty($food_url)) echo $food_url ?>">
-            <?php if(!empty($food_array)){         
-                foreach($food_array['results'] as $key => $item) {
+            <?php if(!empty($arrRecipe)){         
+                foreach($arrRecipe['results'] as $key => $item) {
                     echo $item['title'];
                     echo '<img id="' . $item['id'] . '" src="' . $item['image'] .'" alt=""/><br/>';
             }   
