@@ -7,29 +7,27 @@
     <title><?php echo $title; ?></title>
 </head>
 <body>
-<h2><?php echo $title; ?></h2>
+    <?php $session = session();?>
+<h2><?php echo $title; echo $session->get('user');?></h2>
 <br>
-<?php if(!empty(session("message"))) : ?>
-    <div class="alet-alert"><?php echo session("message"); ?></div>
-<?php endif ?>
-<br><br>
+<nav>
+    <ul>
+        <li><a href="<?php echo site_url('Home') ?>">Accueil</a></li>
+    </ul>
+</nav>  	
 <?php
     echo $form_open;
+    echo $form_id;
     echo $label_username;
     echo $form_username;
     echo $label_mail;
     echo $form_mail;
-    echo $label_hash_password;
-    echo $form_hash_password;
-    echo $label_cmdp;
-    echo $form_cmdp;
+    echo $label_role;
+    echo $form_role;
     echo $form_submit;
     echo $form_close;
 ?>
-<br><br>
-<div class="lnksignin">
-    <a href="<?php echo site_url('Authenticate/index') ?>">J'ai déjà un compte</a>
-</div>
+
 <?php
         if (count($arrErrors) > 0){
     ?>
@@ -40,8 +38,5 @@
             }
         }
         ?>
-    </div> 
-
-
 </body>
 </html>

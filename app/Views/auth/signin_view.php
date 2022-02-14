@@ -9,6 +9,10 @@
 <body>
 <h2><?php echo $title; ?></h2>
 <br>
+<?php if(!empty(session("message"))) : ?>
+    <div class="alet-alert"><?php echo session("message"); ?></div>
+<?php endif ?>
+<br><br>
 <?php
     echo $form_open;
     echo $label_username;
@@ -18,6 +22,7 @@
     echo $form_submit;
     echo $form_close;
 ?>
+<br><br>
 <div class="lnksignup"><a href="<?php echo site_url('Authenticate/register') ?>">Je n'ai pas encore de compte</a></div>
 <?php
         if (count($arrErrors) > 0){
