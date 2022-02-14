@@ -13,6 +13,7 @@
 <nav>
     <ul>
         <li><a href="<?php echo site_url('Moderator') ?>">Panneau d'administration</a></li>
+        <li><a href="<?php echo site_url('Authenticate/disconnect') ?>">Déconnexion</a></li>
     </ul>
 </nav>  
 </body>

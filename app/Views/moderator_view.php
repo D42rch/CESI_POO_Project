@@ -31,8 +31,9 @@
         <tr>
             <td><?php echo $row->username;?></td>
             <td><?php echo $row->mail;?></td>
-            <td><a href="<?php echo site_url('Moderator/edit/'.$row->user_id);?>">Modifier</a>
-                <a href="<?php echo site_url('Moderator/delete_user/'.$row->user_id);?>">Supprimer</a></td>
+            <td><?php echo $arrRole[$row->role];?></td>
+            <td><a href="<?php echo site_url('Moderator/update/'.$row->user_id);?>">Modifier</a>
+                <a href="<?php echo site_url('Moderator/delete/'.$row->user_id);?>">Supprimer</a></td>
         </tr>
     <?php } ?>
     </tbody>
