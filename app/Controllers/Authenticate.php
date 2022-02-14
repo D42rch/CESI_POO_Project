@@ -6,8 +6,6 @@ use App\Libraries\Hash;
 
 class Authenticate extends Controller
 {
-    
-
     public function index()
     {
         helper('form'); // Déclare l'utilisation du helper
@@ -169,5 +167,12 @@ class Authenticate extends Controller
         $data['form_submit'] = form_submit("submit", "Création du compte");
         $data['form_close'] = form_close();
         echo view('auth/signup_view', $data);
+    }
+
+    public function disconnect()
+    {
+        $session = session();
+        $session->remove('user');
+        return redirect()->to('Authenticate');
     }
 }

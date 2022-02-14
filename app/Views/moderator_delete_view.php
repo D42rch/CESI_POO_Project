@@ -15,18 +15,22 @@
         <li><a href="<?php echo site_url('Home') ?>">Accueil</a></li>
     </ul>
 </nav>  
-<h3>Voulez vous vraiement supprimer ce profil</h3>	
-<?php
-    echo $form_open;
-    echo $form_id;
-    echo $label_username;
-    echo $form_username;
-    echo $label_mail;
-    echo $form_mail;
-    echo $form_submit;
-    echo $form_close;
-?>
-
+<p></p>
+<h4>Voulez vous vraiement supprimer ce profil ?</h3>	
+<?php echo $form_open;?>
+<thead>
+    <tr>
+        <th>Adresse mail : </th>
+        <td><?php echo $form_mail;?></td><br><br>
+        <th>Pseudo : </th>
+        <td><?php echo $form_username;?></td><br><br>
+        <th>Rôle : </th>
+        <td><?php echo $form_role;?></td>
+    </tr>
+</thead>
+<br><br>
+<button><a href="<?php echo site_url('Moderator/delete_user/'.$intId);?>">Supprimer</a></td></button>
+<?php echo $form_close;?>
 <?php
         if (count($arrErrors) > 0){
     ?>

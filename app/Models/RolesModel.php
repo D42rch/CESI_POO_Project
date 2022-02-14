@@ -7,8 +7,7 @@ use CodeIgniter\Model;
 class RolesModel extends Model
 {
     protected $table = 'role';
-    protected $primarykey = 'role_id';
-    protected $allowedFields = ['label'];
+    protected $primaryKey = 'role_id';
     protected $returnType = 'App\Entities\Role_entity';
     protected $useTimestamps = false;
 }
