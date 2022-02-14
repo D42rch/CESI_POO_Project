@@ -35,7 +35,7 @@
     <div>
 
         
-        <?php if(ISSET($recipeJSON)) var_dump($recipeJSON)  ?>
+        <?php if(ISSET($recipe_json)) echo $recipe_json ?>
 
 
     </div>

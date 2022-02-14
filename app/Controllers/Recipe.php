@@ -19,10 +19,10 @@ class Recipe extends Controller
         // Variables pour la vue
         $data['name'] = "Liste des recettes";
 
-        
+
         //$data['arrProduct'] = $objRecipeModel->findAll();
 
-        $search_url = "https://api.spoonacular.com/recipes/complexSearch?number=10&apiKey=".self::KEYAPI;
+        $search_url = "https://api.spoonacular.com/recipes/complexSearch?number=10&apiKey=" . self::KEYAPI;
         $search_json = file_get_contents($search_url);
         $data['arrRecipe'] = json_decode($search_json, true);
 
@@ -53,10 +53,56 @@ class Recipe extends Controller
             if ($validation->run($this->request->getPost())) {
 
                 // Call API 
-                $extract_url="https://api.spoonacular.com/recipes/extract?apiKey=".self::KEYAPI."&url=".$this->request->getPost('source_url');
-                $extract_json= file_get_contents($extract_url);
+                $extract_url = "https://api.spoonacular.com/recipes/extract?apiKey=" . self::KEYAPI . "&url=" . $this->request->getPost('source_url');
+                $extract_json = file_get_contents($extract_url);
+                $json_decode = json_decode($extract_json, true);
+
                 $data['recipeJSON'] = $extract_json;
-                //$data['arrExtract'] = json_decode($extract_json, true);
+                $data['arrExtract'] = $json_decode;
+
+                $data['recipe_json'] = $extract_json;
+
+
+
+
+
+                //Traitement
+                $objRecipeModel = new RecipesModel();
+                $objRecipe = new \App\Entities\Recipe_entity();
+
+                
+                
+                $objRecipe->name = $json_decode['title'];
+                $objRecipe->image_URL = $json_decode['image'];
+                $objRecipe->servings = $json_decode['servings'];
+                $objRecipe->readyInMinutes = $json_decode['readyInMinutes'];
+                $objRecipe->source_URL = $json_decode['sourceUrl'];
+                $objRecipe->pricePerServing = $json_decode['pricePerServing'];
+                $objRecipe->isCheap = $json_decode['cheap'];
+                $objRecipe->dairyFree = $json_decode['dairyFree'];
+                $objRecipe->glutenFree = $json_decode['glutenFree'];
+                $objRecipe->vegan = $json_decode['vegan'];
+                $objRecipe->vegatarian = $json_decode['vegetarian'];
+                $objRecipe->veryHealthy = $json_decode['veryHealthy'];
+                $objRecipe->veryPopular = $json_decode['veryPopular'];
+                $objRecipe->summary = $json_decode['summary'];
+                $objRecipe->instructions = $json_decode['instructions'];
+
+
+                
+                // Traitement spécifique 
+                $objRecipe->ketogenic = (!ISSET($json_decode['ketogenic']))??false;
+                $objRecipe->whole30 = (!ISSET($json_decode['whole30']))??false;
+                $objRecipe->dishType = implode(",", $json_decode['dishTypes']);
+                
+                // En fonction de la session user 
+                //$objRecipe->owner = $json_decode['owner'];
+
+                // En fonction de si l'user connecté est admin (state_id = 1) ou user (state_id = 3)
+                $objRecipe->state_id = 3;
+
+
+                $objRecipeModel->save($objRecipe);
 
 
             } else {
@@ -84,41 +130,38 @@ class Recipe extends Controller
 
 
         /*
+
+        x owner
+        x name
+        x image_URL
+        x servings
+        x readyInMinutes
+        x source_URL
+        x pricePerServing
+        x isCheap
+        x dairyFree
+        x instructions
+        x glutenFree
+        x ketogenic
+        x vegan
+        x vegatarian
+        x veryHealthy
+        x veryPopular
+        x whole30
+        x dishType
+        x summary
         
         recipe_id
         api_source_id
-        owner
         state_id
-
         checksum
-
-        x name
-        x image_URL
-
-        servings
-        readyInMinutes
-
-        source_URL
         api_source_URL
         nutrition_id
         likes
         healthScore
-        pricePerServing
-        isCheap
         cuisines
-        dairyFree
-        instructions
         diets
-        glutenFree
-        ketogenic
         lowFodmap
-        vegan
-        vegatarian
-        veryHealthy
-        veryPopular
-        whole30
-        dishType
-        summary
         pairedWines
         pairedWinesText	
         
