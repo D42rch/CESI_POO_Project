@@ -34,7 +34,7 @@ class Database extends Config
         'DSN'      => '',
         'hostname' => 'localhost',
         'username' => 'root',
-        'password' => '1234',
+        'password' => '',
         'database' => 'bd_poo',
         'DBDriver' => 'MySQLi',
         'DBPrefix' => '',
@@ -59,8 +59,8 @@ class Database extends Config
     public $tests = [
         'DSN'      => '',
         'hostname' => '127.0.0.1',
-        'username' => 'root',
-        'password' => '1234',
+        'username' => '',
+        'password' => '',
         'database' => ':memory:',
         'DBDriver' => 'SQLite3',
         'DBPrefix' => 'db_',  // Needed to ensure we're working correctly with prefixes live. DO NOT REMOVE FOR CI DEVS
