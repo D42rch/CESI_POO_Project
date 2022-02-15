@@ -31,13 +31,14 @@ $routes->setAutoRoute(true);
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Home::index');
+
 $routes->group('', ['filter' => 'authCheck'], function($routes){
+    $routes->get('/', 'Home::index');
     $routes->get('/Home', 'Home::index');
     $routes->get('/Moderator', 'Moderator::index');
-    $routes->get('/Moderator/update/(:num)', 'Moderator::update');
+    $routes->get('/Moderator/update/(:num)', 'Moderator::update/$1');
     $routes->get('/Moderator/delete', 'Moderator::delete');
-    $routes->get('/Moderator/delete/(:num)', 'Moderator::delete_user');
+    $routes->get('/Moderator/delete/(:num)', 'Moderator::delete_user/$1');
 });
 
 $routes->group('', ['filter' => 'authAlreadyLogged'], function($routes){
@@ -45,12 +46,12 @@ $routes->group('', ['filter' => 'authAlreadyLogged'], function($routes){
     $routes->get('/Authenticate', 'Authenticate::index');
 });
 
-$routes->group('', ['filter' => 'adminCheck'], function($routes){
-    $routes->get('/Moderator', 'Moderator::index');
-    $routes->get('/Moderator/update/(:num)', 'Moderator::update');
-    $routes->get('/Moderator/delete', 'Moderator::delete');
-    $routes->get('/Moderator/delete/(:num)', 'Moderator::delete_user');
-});
+// $routes->group('', ['filter' => 'adminCheck'], function($routes){
+//     $routes->get('/Moderator', 'Moderator::index');
+//     $routes->get('/Moderator/update/(:num)', 'Moderator::update');
+//     $routes->get('/Moderator/delete', 'Moderator::delete');
+//     $routes->get('/Moderator/delete/(:num)', 'Moderator::delete_user');
+// });
 
 /*
  * --------------------------------------------------------------------

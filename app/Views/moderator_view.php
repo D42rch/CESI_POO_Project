@@ -20,8 +20,8 @@
 <table>
     <thead>
     <tr>
-        <th>Adresse mail</th>
         <th>Pseudo</th>
+        <th>Adresse mail</th>
         <th>Rôle</th>
     </tr>
     </thead>

@@ -18,7 +18,8 @@
             <li><a href="<?php echo site_url('Profilecontroller') ?>">Mon profil</a></li>
             <li><a href="<?php echo site_url('Recipe/add') ?>">Proposer une recette</a></li>
             <li><a href="<?php echo site_url('Recipe') ?>">Recettes</a></li>
-            <li><a href="<?php echo site_url('Moderator') ?>">Panneau d'administration</a></li>
+            <li><a href="<?php echo site_url('Moderator') ?>">Panneau d'administration des utilisateurs</a></li>
+            <li><a href="<?php echo site_url('Moderator/recipe_list') ?>">Panneau d'administration des recettes</a></li>
             <li><a href="<?php echo site_url('Authenticate/disconnect') ?>">Déconnexion</a></li>
         </ul>
     </nav>
