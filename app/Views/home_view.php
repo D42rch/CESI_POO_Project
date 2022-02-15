@@ -7,9 +7,8 @@
     <title><?php echo $title; ?></title>
 </head>
 <body>
-    <?php $session = session();?>
-<h2><?php echo $title; echo $session->get('user'); ?></h2>
-<br>
+<h2><?php echo $title; echo $userInfos->username; ?></h2>
+<br><br>
 <nav>
     <ul>
         <li><a href="<?php echo site_url('Moderator') ?>">Panneau d'administration</a></li>
