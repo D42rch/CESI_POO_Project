@@ -18,20 +18,15 @@
     </ul>
 </nav>  	
 <table>
-    <thead>
-    <tr>
-        <th>Nom de la recette </th>
-        <th>Propriétaire </th>
-        <th>État </th>
-    </tr>
-    </thead>
     <tbody>
-    <?php foreach($arrRecipe as $row){ ?>
+    <?php foreach($arrRecipes as $row){ ?>
         <tr>
+            <td><img src="<?php echo $row->image_URL;?>" alt="Recette" width="500" height="400"></td>
+
             <td><?php echo $row->name;?></td>
             <td><?php echo $row->owner;?></td>
             <td><?php echo $arrState[$row->state_id];?></td>
-            <td><a href="<?php echo site_url('Moderator/update/'.$row->recipe_id);?>">Modifier</a>
+            <td><a href="<?php echo site_url('Moderator/updateRecipe/'.$row->recipe_id);?>">Modifier</a>
                 <a href="<?php echo site_url('Moderator/delete/'.$row->recipe_id);?>">Supprimer</a></td>
         </tr>
     <?php } ?>
