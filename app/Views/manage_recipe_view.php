@@ -20,19 +20,19 @@
 <table>
     <thead>
     <tr>
-        <th>Adresse mail</th>
-        <th>Pseudo</th>
-        <th>Rôle</th>
+        <th>Nom de la recette </th>
+        <th>Propriétaire </th>
+        <th>État </th>
     </tr>
     </thead>
     <tbody>
-    <?php foreach($arrUsers as $row){ ?>
+    <?php foreach($arrRecipe as $row){ ?>
         <tr>
-            <td><?php echo $row->username;?></td>
-            <td><?php echo $row->mail;?></td>
-            <td><?php echo $arrRole[$row->role];?></td>
-            <td><a href="<?php echo site_url('Moderator/update/'.$row->user_id);?>">Modifier</a>
-                <a href="<?php echo site_url('Moderator/delete/'.$row->user_id);?>">Supprimer</a></td>
+            <td><?php echo $row->name;?></td>
+            <td><?php echo $row->owner;?></td>
+            <td><?php echo $arrState[$row->state_id];?></td>
+            <td><a href="<?php echo site_url('Moderator/update/'.$row->recipe_id);?>">Modifier</a>
+                <a href="<?php echo site_url('Moderator/delete/'.$row->recipe_id);?>">Supprimer</a></td>
         </tr>
     <?php } ?>
     </tbody>

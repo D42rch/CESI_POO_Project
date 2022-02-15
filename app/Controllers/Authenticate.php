@@ -39,6 +39,8 @@ class Authenticate extends Controller
 
                     $objUsersModel = new UsersModel(); // Instanciation du modèle
                     $objUser = new \App\Entities\User_entity(); // Instanciation de l'entité
+                    $objUser->fill($this->request->getPost());
+                    
                     $pseudo = $this->request->getPost('username');
                     $password = $this->request->getPost('hash_password');
  
@@ -50,7 +52,8 @@ class Authenticate extends Controller
                         $username = $db_user->username;
                         
                         $session = session();
-                        $session->set('user', $username);
+                        $session->set('user', $db_user->user_id);
+                        $session->set('role', $db_user->role);
                         return redirect()->to('/Home');
                     }else{
                         return redirect()->to('/Authenticate');
@@ -172,7 +175,7 @@ class Authenticate extends Controller
     public function disconnect()
     {
         $session = session();
-        $session->remove('user');
+        $session->destroy();
         return redirect()->to('Authenticate');
     }
 }

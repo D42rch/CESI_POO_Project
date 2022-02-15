@@ -8,7 +8,7 @@
 </head>
 <body>
     <?php $session = session();?>
-<h2><?php echo $title; echo $session->get('user');?></h2>
+<h2><?php echo $title; echo $userInfos->username;?></h2>
 <br>
 <nav>
     <ul>
