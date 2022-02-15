@@ -26,6 +26,8 @@ class Recipe extends Controller
         $search_json = file_get_contents($search_url);
         $data['arrRecipe'] = json_decode($search_json, true);
 
+        $data['search_mode'] = false;
+
         echo view('recipe/recipe_list', $data);
     }
 
@@ -40,10 +42,11 @@ class Recipe extends Controller
         $validation->setRules([
             'source_url' => [
                 'label' => 'URL',
-                'rules' => 'required|valid_url',
+                'rules' => 'required|valid_url|is_unique[recipe.source_URL]',
                 'errors' => [
                     'required' => 'L\'{field} est obligatoire, veuillez indiquer un {field}',
                     'valid_url' => 'L\' {field} doit être valide',
+                    'is_unique' => 'Cette recette est déjà ajoutée',
                 ]
             ]
         ]);
@@ -70,41 +73,42 @@ class Recipe extends Controller
                 $objRecipeModel = new RecipesModel();
                 $objRecipe = new \App\Entities\Recipe_entity();
 
-                
-                
-                $objRecipe->name = $json_decode['title'];
-                $objRecipe->image_URL = $json_decode['image'];
-                $objRecipe->servings = $json_decode['servings'];
-                $objRecipe->readyInMinutes = $json_decode['readyInMinutes'];
-                $objRecipe->source_URL = $json_decode['sourceUrl'];
-                $objRecipe->pricePerServing = $json_decode['pricePerServing'];
-                $objRecipe->isCheap = $json_decode['cheap'];
-                $objRecipe->dairyFree = $json_decode['dairyFree'];
-                $objRecipe->glutenFree = $json_decode['glutenFree'];
-                $objRecipe->vegan = $json_decode['vegan'];
-                $objRecipe->vegatarian = $json_decode['vegetarian'];
-                $objRecipe->veryHealthy = $json_decode['veryHealthy'];
-                $objRecipe->veryPopular = $json_decode['veryPopular'];
-                $objRecipe->summary = $json_decode['summary'];
-                $objRecipe->instructions = $json_decode['instructions'];
 
 
+                $objRecipe->name = (isset($json_decode['title']) ? $json_decode['title'] : '');
+                $objRecipe->image_URL = (isset($json_decode['image']) ? $json_decode['image'] : '');
+                $objRecipe->servings = (isset($json_decode['servings']) ? $json_decode['servings'] : '');
+                $objRecipe->readyInMinutes = (isset($json_decode['readyInMinutes']) ? $json_decode['readyInMinutes'] : '');
+                $objRecipe->source_URL = (isset($json_decode['sourceUrl']) ? $json_decode['sourceUrl'] : '');
+                $objRecipe->pricePerServing = (isset($json_decode['pricePerServing']) ? $json_decode['pricePerServing'] : '');
+                $objRecipe->isCheap = (isset($json_decode['cheap']) ? $json_decode['cheap'] : '');
                 
+                $objRecipe->dairyFree = (isset($json_decode['dairyFree']) ? $json_decode['dairyFree'] : '');
+                $objRecipe->glutenFree = (isset($json_decode['glutenFree']) ? $json_decode['glutenFree'] : '');
+                $objRecipe->vegan = (isset($json_decode['vegan']) ? $json_decode['vegan'] : '');
+                $objRecipe->vegatarian = (isset($json_decode['vegetarian']) ? $json_decode['vegetarian'] : '');
+                $objRecipe->veryHealthy = (isset($json_decode['veryHealthy']) ? $json_decode['veryHealthy'] : '');
+                $objRecipe->veryPopular = (isset($json_decode['veryPopular']) ? $json_decode['veryPopular'] : '');
+                $objRecipe->summary = (isset($json_decode['summary']) ? $json_decode['summary'] : '');
+                $objRecipe->instructions = (isset($json_decode['instructions']) ? $json_decode['instructions'] : '');
+
+                //(!isset($json_decode['title'] ? $json_decode['title'] : '')
+
+
+
                 // Traitement spécifique 
-                $objRecipe->ketogenic = (!ISSET($json_decode['ketogenic']))??false;
-                $objRecipe->whole30 = (!ISSET($json_decode['whole30']))??false;
+                $objRecipe->ketogenic = (!isset($json_decode['ketogenic'])) ?? false;
+                $objRecipe->whole30 = (!isset($json_decode['whole30'])) ?? false;
                 $objRecipe->dishType = implode(",", $json_decode['dishTypes']);
-                
+
                 // En fonction de la session user 
                 //$objRecipe->owner = $json_decode['owner'];
 
                 // En fonction de si l'user connecté est admin (state_id = 1) ou user (state_id = 3)
-                $objRecipe->state_id = 3;
+                //$objRecipe->state_id = 3;
 
 
                 $objRecipeModel->save($objRecipe);
-
-
             } else {
                 $arrErrors = $validation->getErrors(); // on récupère les erreurs pour les afficher
 
@@ -166,5 +170,96 @@ class Recipe extends Controller
         pairedWinesText	
         
         */
+    }
+
+    public function search()
+    {
+
+        helper('form');
+
+        $data['name'] = "Rechercher une recette";
+
+        $validation = \Config\Services::validation();
+        $validation->setRules([
+            'title' => [
+                'label' => 'Nom de la recette',
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'L\'{field} est obligatoire, veuillez indiquer un {field}',
+                ]
+            ]
+        ]);
+
+        $data['no_results'] = true;
+
+
+        $arrErrors = array();
+        if (count($this->request->getPost()) > 0) {
+
+            if ($validation->run($this->request->getPost())) {
+
+                $search_url = "https://api.spoonacular.com/recipes/complexSearch?number=10&apiKey=" . self::KEYAPI . "&titleMatch=" . $this->request->getPost('title');
+                $search_json = file_get_contents($search_url);
+                $data['arrRecipe'] = json_decode($search_json, true);
+
+
+
+                $data['no_results'] = false;
+
+            } else {
+
+                $data['arrRecipe'] = 'unvalid';
+            }
+        } else {
+            $data['arrRecipe'] = 'empty input';
+        }
+
+
+        $data['arrErrors'] = $arrErrors;
+
+
+        $optionsType = [
+            
+            'main course',
+            'side dish',
+            'dessert',
+            'appetizer',
+            'salad',
+            'bread',
+            'breakfast',
+            'soup',
+            'beverage',
+            'sauce',
+            'marinade',
+            'fingerfood',
+            'snack',
+            'drink',
+            '',
+        ];
+
+
+
+
+        $data['form_open'] = form_open('recipe/search');
+
+        // titleMatch 
+        $data['label_title'] = form_label('Nom de la recette ', 'title');
+        $data['form_title'] = form_input('title', $this->request->getPost('title') ?? "", "id='title' placeholder='Nom de la recette'");
+        
+        // type (https://spoonacular.com/food-api/docs#Meal-Types)
+        $data['label_type'] = form_label('Type de recette ', 'type');
+        $data['form_type'] = form_dropdown('type', $optionsType, 'main course', "id='type'");
+        
+        // maxReadyTime (number) 
+        $data['label_time'] = form_label('Temps de cuisson max. (min)', 'time');
+        $data['input_time'] = form_input('time', "30", null, 'number');
+
+
+        $data['form_submit'] = form_submit("submit", "Rechercher");
+        $data['form_close'] = form_open();
+
+        $data['search_mode'] = true;
+
+        echo view('recipe/recipe_list', $data);
     }
 }

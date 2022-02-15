@@ -21,6 +21,88 @@ class Moderator extends BaseController
         return view('moderator_view', $data);
     }
 
+    public function edit($intId)
+    {
+
+        helper('form'); // Déclare l'utilisation du helper
+
+        $objUsersModel = new UsersModel();
+        $objRolesModel = new RolesModel();
+        $username = session('user');
+        $user = $objUsersModel->where('user_id', $intId)->first();
+        $user_role = $objRolesModel->where('role_id', $user->role_id)->first();
+        $allRole = $objRolesModel->findAll();
+        $arrRole = array();
+
+        $arrRole[1] = 'Utilisateur';
+        $arrRole[2] = 'Modérateur';
+
+        $data = ['title'=>'Administrateur connecté : ',
+        'user'=>$user];
+
+        // Il faut charger la librairie
+        $validation = \Config\Services::validation(); 
+        $validation->setRules([
+                'username' => [
+                    'label'  => 'pseudo',
+                    'rules'  => 'required|is_unique[user.username]',
+                    'errors' => [
+                        'required' => 'Le {field} est obligatoire, veuillez indiquer le {field}',
+                        'is_unique' => 'Le {field} est déjà utilisé',
+                    ],
+                ],
+                'mail' => [
+                    'label'  => 'adresse mail',
+                    'rules'  => 'required|valid_email',
+                    'errors' => [
+                        'required' => 'L\' {field} est obligatoire, veuillez indiquer l\' {field}',
+                        'valid_email' => 'L\' {field} doit être valide',
+                    ],
+                ],
+            ]
+        );
+
+
+        // On donne des règles de validation une à une ou à travers d'un tableau (setRules)
+
+        $arrErrors = array();
+        $objUser = new \App\Entities\User_entity();
+
+        if (count($this->request->getPost()) > 0){ // Le formulaire a été envoyé ?
+            $objUser->fill($this->request->getPost());
+            if ($validation->run($this->request->getPost())){ //on teste la validation du formulaire sur les données
+                
+                update($objUser);
+
+            }else{
+                $arrErrors = $validation->getErrors(); // on récupère les erreurs pour les afficher
+    
+                if(empty($arrErrors)){
+                    $session = session();
+                
+                    $session->setFlashdata("message", "Un problème est survenu, veuillez réessayer ultérieurement !");
+                    $session->markAsFlashdata("message", "Un problème est survenu, veuillez réessayer ultérieurement !");    
+                }
+            }
+        }
+
+        $data['arrErrors'] = $arrErrors;
+
+        $data['form_open'] = form_open("Moderator/update");
+        $data['form_id'] = form_hidden("user_id", $user->user_id, "id='user_id'");
+        $data['label_username'] = form_label("Pseudo ", "username");
+        $data['form_username'] = form_input("username", $user->username, "id='username'");
+        $data['label_mail'] = form_label("Adresse mail ", "mail");
+        $data['form_mail'] = form_input("mail", $user->mail, "id='mail'");
+       
+        $data['label_role'] = form_label("Rôle ", "role");
+        $data['form_role'] = form_dropdown("role", $arrRole, "id='role'");
+       
+        $data['form_submit'] = form_submit("submit", "Modification");
+        $data['form_close'] = form_close();
+
+        return view('moderator_edit_view', $data);
+    }
     public function delete($intId)
     {
 

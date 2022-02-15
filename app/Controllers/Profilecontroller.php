@@ -2,33 +2,39 @@
 namespace App\Controllers;
  
 use CodeIgniter\Controller;
-use App\Models\UserModel;
+use App\Models\UsersModel;
  
 class Profilecontroller extends Controller
 {
-    public function index($primaryKey) {
+    public function index() {
         
         // Instanciation du modèle
-        $objUserModel       = new UserModel();
+        $objUsersModel       = new UsersModel();
+
+        // $id = session()->get('user');
+        $id = 1;
         
         // On fournit les variables pour la vue
         $data['title'] = "Profil"; // titre
-        $data['user'] = $objUserModel->find($primaryKey);
+        $data['user'] = $objUsersModel->find($id);
         // Affichage de la vue
         echo view('profil',$data);
     }
 
-    public function usernameEdit($intId){
+    public function usernameEdit(){
         // Déclare l'utilisation du helper
         helper('form');
       
         // Instanciation du modèle
-        $objUserModel    = new UserModel();
+        $objUserModel    = new UsersModel();
         // Instanciation de l'entité
         $objUser        = new \App\Entities\UserEntity();
         $data['title']      = "Modifier le pseudonyme";
 
-        $objUser         = $objUserModel->find($intId);
+        // $id = session()->get('user');
+        $id = 1;
+
+        $objUser         = $objUserModel->find($id);
 
         // Il faut charger la librairie
         $validation =  \Config\Services::validation();
@@ -71,17 +77,20 @@ class Profilecontroller extends Controller
            echo view('user_name_edit', $data);
     }
 
-    public function mailEdit($intId){
+    public function mailEdit(){
         // Déclare l'utilisation du helper
         helper('form');
       
         // Instanciation du modèle
-        $objUserModel    = new UserModel();
+        $objUserModel    = new UsersModel();
         // Instanciation de l'entité
         $objUser        = new \App\Entities\UserEntity();
         $data['title']      = "Modifier l'adresse mail";
 
-        $objUser         = $objUserModel->find($intId);
+        // $id = session()->get('user');
+        $id = 1;
+
+        $objUser         = $objUserModel->find($id);
 
         // Il faut charger la librairie
         $validation =  \Config\Services::validation();
@@ -124,17 +133,20 @@ class Profilecontroller extends Controller
            echo view('user_mail_edit', $data);
     }
 
-    public function pwdEdit($intId){
+    public function pwdEdit(){
         // Déclare l'utilisation du helper
         helper('form');
       
         // Instanciation du modèle
-        $objUserModel    = new UserModel();
+        $objUserModel    = new UsersModel();
         // Instanciation de l'entité
         $objUser        = new \App\Entities\UserEntity();
         $data['title']      = "Modifier le mot de passe";
 
-        $objUser         = $objUserModel->find($intId);
+        // $id = session()->get('user');
+        $id = 1;
+
+        $objUser         = $objUserModel->find($id);
 
         // Il faut charger la librairie
         $validation =  \Config\Services::validation();

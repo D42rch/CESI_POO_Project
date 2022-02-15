@@ -13,7 +13,7 @@
     <div class="shadow-lg w-100 p-3 mb-5 bg-white rounded">
         <p class="increase-font-size"><?php echo $title; ?></p>
         <hr>	
-        <p><a href="<?php echo previous_url();?>">Retour</a></p>
+        <p><a href="<?php echo site_url('/');?>">Retour</a></p>
         <div class="form-row">
         <div class="d-flex justify-content-center position-relative md-12">
           <img src="" width="150px" alt="Profile picture">
@@ -32,13 +32,13 @@
         <hr>
         <div class="form-row">
         <div class="form-group col-md-12">
-          <a class="btn" href="<?php echo site_url('Profilecontroller/usernameEdit/'.strval($user->user_id))?>">Changer votre pseudonyme</a>
+          <a class="btn" href="<?php echo site_url('Profilecontroller/usernameEdit/')?>">Changer votre pseudonyme</a>
         </div>
         <div class="form-group col-md-12">
-          <a class="btn" href="<?php echo site_url('Profilecontroller/mailEdit/'.strval($user->user_id))?>">Changer votre addresse mail</a>
+          <a class="btn" href="<?php echo site_url('Profilecontroller/mailEdit/')?>">Changer votre addresse mail</a>
         </div>
         <div class="form-group col-md-12">
-          <a class="btn" href="<?php echo site_url('Profilecontroller/pwdEdit/'.strval($user->user_id))?>">Changer votre mot de passe</a>
+          <a class="btn" href="<?php echo site_url('Profilecontroller/pwdEdit/')?>">Changer votre mot de passe</a>
         </div>
         
         </div>

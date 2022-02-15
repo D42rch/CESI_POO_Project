@@ -1,4 +1,7 @@
-<?php namespace App\Controllers;
+<?php
+
+namespace App\Controllers;
+
 use CodeIgniter\Controller;
 use App\Models\UsersModel;
 use App\Libraries\Hash;
@@ -11,8 +14,9 @@ class Authenticate extends Controller
         helper('form'); // Déclare l'utilisation du helper
         $data['title'] = "Connexion";
 
-        $validation = \Config\Services::validation(); 
-        $validation->setRules([
+        $validation = \Config\Services::validation();
+        $validation->setRules(
+            [
                 'username' => [
                     'label'  => 'Pseudo',
                     'rules'  => 'required|is_not_unique[user.username]',
@@ -64,29 +68,29 @@ class Authenticate extends Controller
             }else{
                 $arrErrors = $validation->getErrors(); // on récupère les erreurs pour les afficher
             }
-
         }
         $data['arrErrors'] = $arrErrors;
 
         $data['form_open'] = form_open("Authenticate/index");
         $data['label_username'] = form_label("Pseudo ", "username");
-        $data['form_username'] = form_input("username", $this->request->getPost('username')??"", "id='username'");
+        $data['form_username'] = form_input("username", $this->request->getPost('username') ?? "", "id='username'");
         $data['label_hash_password'] = form_label("Mot de passe ", "hash_password");
-        $data['form_hash_password'] = form_password("hash_password", $this->request->getPost('hash_password')??"", "id='hash_password'");
+        $data['form_hash_password'] = form_password("hash_password", $this->request->getPost('hash_password') ?? "", "id='hash_password'");
         $data['form_submit'] = form_submit("submit", "Connexion");
         $data['form_close'] = form_close();
-        
+
         echo view('auth/signin_view', $data);
     }
     public function register()
     {
         helper('form'); // Déclare l'utilisation du helper
- 
+
         $data['title'] = "Inscritpion";
 
         // Il faut charger la librairie
-        $validation = \Config\Services::validation(); 
-        $validation->setRules([
+        $validation = \Config\Services::validation();
+        $validation->setRules(
+            [
                 'username' => [
                     'label'  => 'pseudo',
                     'rules'  => 'required|is_unique[user.username]',
@@ -126,15 +130,15 @@ class Authenticate extends Controller
         // On donne des règles de validation une à une ou à travers d'un tableau (setRules)
 
         $arrErrors = array();
-        if (count($this->request->getPost()) > 0){ // Le formulaire a été envoyé ?
-            if ($validation->run($this->request->getPost())){ //on teste la validation du formulaire sur les données
+        if (count($this->request->getPost()) > 0) { // Le formulaire a été envoyé ?
+            if ($validation->run($this->request->getPost())) { //on teste la validation du formulaire sur les données
 
                 $objUsersModel = new UsersModel(); // Instanciation du modèle
                 $objUser = new \App\Entities\User_entity(); // Instanciation de l'entité
                 $objUser->fill($this->request->getPost());
                 $objUser->hash_password = Hash::make($objUser->hash_password);
                 $objUser->isConfirmed = 0;
-                
+
                 $objUsersModel->save($objUser); // On sauvegarde l'objet
 
                 $session = session();
@@ -144,25 +148,25 @@ class Authenticate extends Controller
 
                 return redirect()->to('/Authenticate'); // redirection vers l'action par défaut du controller login
                 //log_message('error', $objUser->hash_password);
-        }else{
-            $arrErrors = $validation->getErrors(); // on récupère les erreurs pour les afficher
+            } else {
+                $arrErrors = $validation->getErrors(); // on récupère les erreurs pour les afficher
 
-            if(empty($arrErrors)){
-                $session = session();
-            
-                $session->setFlashdata("message", "Un problème est survenu, veuillez réessayer ultérieurement !");
-                $session->markAsFlashdata("message", "Un problème est survenu, veuillez réessayer ultérieurement !");    
+                if (empty($arrErrors)) {
+                    $session = session();
+
+                    $session->setFlashdata("message", "Un problème est survenu, veuillez réessayer ultérieurement !");
+                    $session->markAsFlashdata("message", "Un problème est survenu, veuillez réessayer ultérieurement !");
+                }
             }
         }
-    }
         // log_message('error', $validation->getErrors());
         $data['arrErrors'] = $arrErrors;
 
         $data['form_open'] = form_open("Authenticate/register");
         $data['label_username'] = form_label("Pseudo ", "username");
-        $data['form_username'] = form_input("username", $this->request->getPost('username')??"", "id='username'");
+        $data['form_username'] = form_input("username", $this->request->getPost('username') ?? "", "id='username'");
         $data['label_mail'] = form_label("Adresse mail ", "mail");
-        $data['form_mail'] = form_input("mail", $this->request->getPost('mail')??"", "id='mail'");
+        $data['form_mail'] = form_input("mail", $this->request->getPost('mail') ?? "", "id='mail'");
         $data['label_hash_password'] = form_label("Mot de passe ", "hash_password");
         $data['form_hash_password'] = form_password("hash_password", "", "id='hash_password'");
         $data['label_cmdp'] = form_label("Confirmation mot de passe ", "user_cmdp");

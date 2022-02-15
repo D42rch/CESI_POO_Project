@@ -1,0 +1,12 @@
+#results{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    flex-wrap:wrap;
+    margin-top: 15px;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
