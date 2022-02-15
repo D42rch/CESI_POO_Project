@@ -11,11 +11,12 @@
 <body>
     <?php $session = session(); ?>
     <h2><?php echo $title;
-        echo $session->get('user'); ?></h2>
+        echo $userInfos->username; ?></h2>
     <br>
     <nav>
         <ul>
             <li><a href="<?php echo site_url('Profilecontroller') ?>">Mon profil</a></li>
+            <li><a href="<?php echo site_url('Recipe/add') ?>">Proposer une recette</a></li>
             <li><a href="<?php echo site_url('Recipe') ?>">Recettes</a></li>
             <li><a href="<?php echo site_url('Moderator') ?>">Panneau d'administration</a></li>
             <li><a href="<?php echo site_url('Authenticate/disconnect') ?>">Déconnexion</a></li>

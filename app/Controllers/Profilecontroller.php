@@ -11,8 +11,7 @@ class Profilecontroller extends Controller
         // Instanciation du modèle
         $objUsersModel       = new UsersModel();
 
-        // $id = session()->get('user');
-        $id = 1;
+        $id = session('user');
         
         // On fournit les variables pour la vue
         $data['title'] = "Profil"; // titre
@@ -31,8 +30,7 @@ class Profilecontroller extends Controller
         $objUser        = new \App\Entities\UserEntity();
         $data['title']      = "Modifier le pseudonyme";
 
-        // $id = session()->get('user');
-        $id = 1;
+        $id = session('user');
 
         $objUser         = $objUserModel->find($id);
 
@@ -87,8 +85,7 @@ class Profilecontroller extends Controller
         $objUser        = new \App\Entities\UserEntity();
         $data['title']      = "Modifier l'adresse mail";
 
-        // $id = session()->get('user');
-        $id = 1;
+        $id = session('user');
 
         $objUser         = $objUserModel->find($id);
 
@@ -143,8 +140,7 @@ class Profilecontroller extends Controller
         $objUser        = new \App\Entities\UserEntity();
         $data['title']      = "Modifier le mot de passe";
 
-        // $id = session()->get('user');
-        $id = 1;
+        $id = session('user');
 
         $objUser         = $objUserModel->find($id);
 

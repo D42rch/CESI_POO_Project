@@ -19,6 +19,8 @@ class Recipe extends Controller
         // Variables pour la vue
         $data['name'] = "Liste des recettes";
 
+       
+
 
         //$data['arrProduct'] = $objRecipeModel->findAll();
 
@@ -27,6 +29,7 @@ class Recipe extends Controller
         $data['arrRecipe'] = json_decode($search_json, true);
 
         $data['search_mode'] = false;
+        $data['no_results'] = false;
 
         echo view('recipe/recipe_list', $data);
     }
